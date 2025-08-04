@@ -1,0 +1,25 @@
+from langchain_openai import ChatOpenAI
+from langchain_core.messages import SystemMessage,AIMessage,HumanMessage
+from langchain_core.prompts import ChatPromptTemplate
+from dotenv import load_dotenv
+
+load_dotenv()
+model=ChatOpenAI(model="gpt-4o")
+
+template="Write a {tone} email to {company} expressing" \
+ "interest in the {position} position ,mentioning {skill} as a" \
+ "key strength,keep it to 4 lines max"
+
+prompt_Template= ChatPromptTemplate.from_template(template)
+
+promptValue=prompt_Template.invoke(
+    {
+        "tone":"professional",
+        "company":"Nvidia",
+        "position":"AI Engineer",
+        "skill":"langchain,langgraph,n8n,crewAI"
+    }
+)
+print(promptValue)
+response=model.invoke(promptValue)
+print(response.content)
